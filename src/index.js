@@ -38,10 +38,7 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            squares: Array(9).fill(null),
-            nextMove: 'X'
-        };
+        this.state = this.getInitialState();
     }
 
     handleClick(i) {
@@ -104,6 +101,17 @@ class Game extends React.Component {
         )*/
     }
 
+    getInitialState() {
+        return {
+            squares: Array(9).fill(null),
+            nextMove: 'X'
+        };
+    }
+
+    restartGame() {
+        this.setState(this.getInitialState());
+    }
+
     render() {
         const winner = calculateWinner(this.state.squares);
 
@@ -120,6 +128,7 @@ class Game extends React.Component {
 
                 <div className="game-info">
                     <div>{status}</div>
+                    <button onClick={() => this.restartGame()}>Restart Game</button>
                 </div>
             </div>
         );
