@@ -40,13 +40,13 @@ class Game extends React.Component {
 
         this.state = {
             squares: Array(9).fill(null),
-            nextMove: "X"
+            nextMove: 'X'
         };
     }
 
     handleClick(i) {
         const squares = this.state.squares;
-        const move = squares[i];
+        const currentInfo = squares[i];
 
         // Se o move for diferente de null, significa que tem uma informação lá
         // Por tanto, devemos encerrar o clique imediatamente, visto que não podemos sobrescrever a informação
@@ -54,18 +54,35 @@ class Game extends React.Component {
         // Como qualquer texto, como "X" e "O" são truthy, ou seja, o JS entende como 'true'
         //      E o if só entra quando existe uma informação 'truthy', esse if será executado
         //      para qualquer informação válida, no caso, "X" e "O"
-        if (move) {
-            console.log('Square já utilizado', move);
+        if (currentInfo) {
             return;
         }
 
-        console.log('handleClick - Game', i);
+        const currentMove = this.state.nextMove;
 
-        squares[i] = 'X';
+        // Atualiza a informação do square atual com o currentMove
+        squares[i] = currentMove;
+
+        // Definimos o move da próxima jogada
+        // Se o move atual for 'X', o próximo é o 'O' e vice-versa
+        const nextMove = currentMove == 'X' ? 'O' : 'X'; // Operador ternário
+
+        /*
+        // Definimos o move da próxima jogada
+        let nextMove = '';
+        
+        // Se o move atual for 'X', o próximo é o 'O' e vice-versa
+        if (currentMove == 'X') {
+            nextMove = 'O';
+        } else {
+            nextMove = 'X';
+        }
+        */
 
         this.setState(
             {
-                squares: squares
+                squares: squares,
+                nextMove: nextMove
             }
         )
 
