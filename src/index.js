@@ -65,7 +65,7 @@ class Game extends React.Component {
 
         // Definimos o move da próxima jogada
         // Se o move atual for 'X', o próximo é o 'O' e vice-versa
-        const nextMove = currentMove == 'X' ? 'O' : 'X'; // Operador ternário
+        const nextMove = currentMove === 'X' ? 'O' : 'X'; // Operador ternário
 
         /*
         // Definimos o move da próxima jogada
@@ -105,6 +105,12 @@ class Game extends React.Component {
     }
 
     render() {
+        const winner = calculateWinner(this.state.squares);
+
+        console.log('Winner:', winner);
+
+        const status = 'Status do jogo';
+
         return (
             <div className="game">
                 <div className="game-board">
@@ -112,7 +118,7 @@ class Game extends React.Component {
                 </div>
 
                 <div className="game-info">
-                    Informações do Jogo
+                    <div>{status}</div>
                 </div>
             </div>
         );
@@ -125,3 +131,33 @@ ReactDOM.render(
     // Em um elemento -> Container em que será renderizado
     document.getElementById('root')
 );
+
+function calculateWinner(squares) {
+    const lines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+
+    console.log(squares, lines);
+
+    for (let i in lines) {
+        const line = lines[i];
+        const a = line[0];
+        const b = line[1];
+        const c = line[2];
+
+        console.log(i, line, a, b, c);
+
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            return true;
+        }
+    }
+
+    return false;
+}
