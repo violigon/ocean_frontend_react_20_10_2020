@@ -54,7 +54,7 @@ class Game extends React.Component {
         // Como qualquer texto, como "X" e "O" são truthy, ou seja, o JS entende como 'true'
         //      E o if só entra quando existe uma informação 'truthy', esse if será executado
         //      para qualquer informação válida, no caso, "X" e "O"
-        if (currentInfo) {
+        if (currentInfo || calculateWinner(squares)) {
             return;
         }
 
@@ -107,9 +107,10 @@ class Game extends React.Component {
     render() {
         const winner = calculateWinner(this.state.squares);
 
-        console.log('Winner:', winner);
+        const nextMove = this.state.nextMove;
+        const winMove = nextMove == 'X' ? 'O' : 'X';
 
-        const status = 'Status do jogo';
+        const status = winner ? 'Winner: ' + winMove : 'Next player: ' + nextMove;
 
         return (
             <div className="game">
@@ -144,15 +145,8 @@ function calculateWinner(squares) {
         [2, 4, 6]
     ];
 
-    console.log(squares, lines);
-
-    for (let i in lines) {
-        const line = lines[i];
-        const a = line[0];
-        const b = line[1];
-        const c = line[2];
-
-        console.log(i, line, a, b, c);
+    for (let line of lines) {
+        const [a, b, c] = line;
 
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
             return true;
